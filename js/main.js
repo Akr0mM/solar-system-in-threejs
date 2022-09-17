@@ -22,9 +22,11 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(window.devicePixelRatio)
 document.body.appendChild(renderer.domElement);
 
-camera.position.z = 12;
-camera.position.y = 12
-camera.rotation.x = -0.7
+camera.position.z = 20;
+camera.position.y = 20
+camera.lookAt(0, 0, 0)
+scene.add(new THREE.AxesHelper(10))
+
 
 let earth,
     sun,
@@ -48,7 +50,9 @@ let earth,
     moonMesh,
     earthOrbit = new THREE.Group(),
     marsOrbit = new THREE.Group(),
-    moonOrbit = new THREE.Group()
+    moonOrbit = new THREE.Group(),
+    solarSystem = new THREE.Group(),
+    mercuryOrbit = new THREE.Group()
 
 
 window.onload = function main() {
@@ -74,7 +78,7 @@ function animate() {
 
 function movePlanets() {
     // earth
-    earthMesh.rotation.y += 0.006
+    earthMesh.rotation.y += 0.01
     earthOrbit.rotation.y += 0.005
 
     // moon
@@ -127,12 +131,17 @@ function initPlanets() {
         saturnMesh = saturn.getMesh()
         moonMesh = moon.getMesh()
 
-        earthMesh.position.x = 10
-        moonOrbit.position.x = 10
-        moonMesh.position.x = 2
-
         moonOrbit.add(moonMesh)
         earthOrbit.add(earthMesh, moonOrbit)
+        mercuryOrbit.add(mercuryMesh)
 
-        scene.add(sunMesh, earthOrbit)
+        solarSystem.add(sunMesh, earthOrbit, mercuryOrbit)
+        solarSystem.add(earth.createLine()) 
+
+        earthMesh.position.x = 15
+        moonOrbit.position.x = 15
+        moonMesh.position.x = 2
+        mercuryMesh.position.x = 10
+
+        scene.add(solarSystem)
 }
