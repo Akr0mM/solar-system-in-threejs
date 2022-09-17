@@ -1,4 +1,5 @@
 import * as THREE from '../node_modules/three/build/three.module.js';
+import { OrbitControls } from '../node_modules/three/examples/jsm/controls/OrbitControls.js'
 import WebGL from './WebGLError.js'
 import Earth from './planets/Earth.js'
 import Sun from './planets/Sun.js'
@@ -21,6 +22,8 @@ const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(window.devicePixelRatio)
 document.body.appendChild(renderer.domElement);
+
+const orbitControls = new OrbitControls(camera, renderer.domElement)
 
 camera.position.z = 20;
 camera.position.y = 20
@@ -63,6 +66,7 @@ window.onload = function main() {
     {
         // main 
         initPlanets()        
+        orbitControls.update()
         
         animate()
     }
